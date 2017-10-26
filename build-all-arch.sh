@@ -6,7 +6,7 @@ set -e
 rm -rf prebuilt
 mkdir prebuilt
 
-archs=(armeabi arm64-v8a mips mips64 x86 x86_64)
+archs=(armeabi arm64-v8a x86 x86_64)
 
 for arch in ${archs[@]}; do
     xLIB="/lib"
@@ -53,12 +53,12 @@ for arch in ${archs[@]}; do
     . ./setenv-android-mod.sh
 
     echo "CROSS COMPILE ENV : $CROSS_COMPILE"
-    cd openssl-1.0.1j
+    cd openssl-1.0.1g
 
     xCFLAGS="-DSHARED_EXTENSION=.so -fPIC -DOPENSSL_PIC -DDSO_DLFCN -DHAVE_DLFCN_H -mandroid -I$ANDROID_DEV/include -B$ANDROID_DEV/$xLIB -O3 -fomit-frame-pointer -Wall"
 
     perl -pi -e 's/install: all install_docs install_sw/install: install_docs install_sw/g' Makefile.org
-    ./Configure shared no-threads no-asm no-zlib no-ssl2 no-ssl3 no-comp no-hw no-engine --openssldir=/usr/local/ssl/android-19/ $configure_platform $xCFLAGS
+    ./Configure shared no-asm no-zlib no-ssl2 no-ssl3 no-comp no-hw no-engine --prefix=`pwd`/../openssl/${arch} --openssldir=`pwd`/../openssl/${arch}/ssl $configure_platform $xCFLAGS
 
     # patch SONAME
 
@@ -70,6 +70,7 @@ for arch in ${archs[@]}; do
     make clean
     make depend
     make all
+    make install_sw
 
     file libcrypto.so
     file libssl.so

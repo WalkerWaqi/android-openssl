@@ -15,7 +15,7 @@
 # try to pick it up with the value of _ANDROID_NDK_ROOT below. If
 # ANDROID_NDK_ROOT is set, then the value is ignored.
 # _ANDROID_NDK="android-ndk-r8e"
-_ANDROID_NDK="android-ndk-r10d"
+_ANDROID_NDK="ndk"
 # _ANDROID_NDK="android-ndk-r10"
 
 # Set _ANDROID_EABI to the EABI you want to use. You can find the
@@ -75,22 +75,22 @@ fi
 # http://groups.google.com/group/android-ndk/browse_thread/thread/a998e139aca71d77
 if [ -z "$ANDROID_NDK_ROOT" ] || [ ! -d "$ANDROID_NDK_ROOT" ]; then
   echo "Error: ANDROID_NDK_ROOT is not a valid path. Please edit this script."
-  # echo "$ANDROID_NDK_ROOT"
-  # exit 1
+  echo "$ANDROID_NDK_ROOT"
+  exit 1
 fi
 
 # Error checking
 if [ ! -d "$ANDROID_NDK_ROOT/toolchains" ]; then
   echo "Error: ANDROID_NDK_ROOT/toolchains is not a valid path. Please edit this script."
-  # echo "$ANDROID_NDK_ROOT/toolchains"
-  # exit 1
+  echo "$ANDROID_NDK_ROOT/toolchains"
+  exit 1
 fi
 
 # Error checking
 if [ ! -d "$ANDROID_NDK_ROOT/toolchains/$_ANDROID_EABI" ]; then
   echo "Error: ANDROID_EABI is not a valid path. Please edit this script."
-  # echo "$ANDROID_NDK_ROOT/toolchains/$_ANDROID_EABI"
-  # exit 1
+  echo "$ANDROID_NDK_ROOT/toolchains/$_ANDROID_EABI"
+  exit 1
 fi
 
 #####################################################################
